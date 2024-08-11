@@ -14,12 +14,12 @@ const Navbar = () => {
                     <span className='text-green-700'>Pass&gt;</span>
                 </div>
                 <ul>
-                    <li className='flex gap-4 text-white'>
+                    {/* <li className='flex gap-4 text-white'>
                         <a className='hover:font-bold' href="/">Home</a>
                         <a className='hover:font-bold' href='#'>
 
                             MyPass</a>
-                    </li>
+                    </li> */}
 
                 </ul>
                 <div className='text-white bg-green-500 rounded-md flex gap-0 justify-between items-center'>
