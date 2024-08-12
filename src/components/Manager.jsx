@@ -2,11 +2,12 @@ import React, { useEffect, useRef, useState } from 'react'
 
 const Manager = () => {
     const ref = useRef()
+    const passwordRef = useRef()
     const [form, setform] = useState({ site: "", username: "", password: "" })
     const [passwordArray, setpasswordArray] = useState([])
     useEffect(() => {
         let passwords = localStorage.getItem("passwords")
-        
+
         if (passwords) {
             setpasswordArray(JSON.parse(passwords))
         }
@@ -18,11 +19,16 @@ const Manager = () => {
 
     const showPassword = () => {
         // alert("show ");
+        passwordRef.current.type = "text";
+
         if (ref.current.src.includes("icons/crosseye.png")) {
             ref.current.src = "icons/eye.png";
+            passwordRef.current.type = "password";
         }
         else {
+            passwordRef.current.type = "text";
             ref.current.src = "icons/crosseye.png";
+
         }
 
 
@@ -63,7 +69,7 @@ const Manager = () => {
                         <input name='username' onChange={handleChange} value={form.username} placeholder='Enter username' className='rounded-full border-green-500 w-full p-4 py-1 m-4' type="text" />
                         <div className="relative">
 
-                            <input name='password' onChange={handleChange} value={form.password} placeholder="Enter Password" className='rounded-full border-green-500 w-full p-4 py-1 m-4 ' type="text" />
+                            <input ref={passwordRef} name='password' onChange={handleChange} value={form.password} placeholder="Enter Password" className='rounded-full border-green-500 w-full p-4 py-1 m-4 ' type="password" />
                             <span className='absolute  right-0 top-4'>
                                 <img ref={ref} className='p-1 cursor-pointer' onClick={showPassword} width={30} src="/icons/eye.png" alt="eye" />
                             </span>
@@ -87,28 +93,35 @@ const Manager = () => {
                 <div className="passwords">
                     <h2 className='font-bold text-2xl py-4'>Your Passwords</h2>
                     {passwordArray.length === 0 && <div className='font-bold '>No passwords to show </div>}
-                    {passwordArray.length !==0 && 
-                    <table className="table-auto w-full overflow-hidden rounded-md ">
-                        <thead className='bg-green-800 text-white'>
-                            <tr>
-                                <th className='py-2'>Site</th>
-                                <th className='py-2'>Username</th>
-                                <th className='py-2'>Password</th>
-                            </tr>
-                        </thead>
-                        <tbody className='bg-green-100'>
-                            {passwordArray.map((item, index)=>{
-                                return <tr key={index}>
-                                <td className='py-2 border border-white text-center w-32'><a href={item.site} target='_blank'>{item.site}</a></td>
-                                <td className='py-2 border border-white text-center w-32'>{item.username}</td>
-                                <td className='py-2 border border-white text-center w-32'>{item.password}</td>
-                            </tr>
+                    {passwordArray.length !== 0 &&
+                        <table className="table-auto w-full overflow-hidden rounded-md ">
+                            <thead className='bg-green-800 text-white'>
+                                <tr>
+                                    <th className='py-2'>Site</th>
+                                    <th className='py-2'>Username</th>
+                                    <th className='py-2'>Password</th>
+                                </tr>
+                            </thead>
+                            <tbody className='bg-green-100'>
+                                {passwordArray.map((item, index) => {
+                                    return <tr key={index}>
+                                        <td className='py-2 border border-white text-center w-32 '><a href={item.site} target='_blank'>{item.site}</a>
+                                            <div className='cursor-pointer '>
+                                                
 
-                            })}
-                            
-                 
-                        </tbody>
-                    </table>}
+                                            </div>
+
+
+                                        </td>
+                                        <td className='py-2 border border-white text-center w-32'>{item.username}</td>
+                                        <td className='py-2 border border-white text-center w-32'>{item.password}</td>
+                                    </tr>
+
+                                })}
+
+
+                            </tbody>
+                        </table>}
 
 
                 </div>
