@@ -1,4 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
+import { ToastContainer, toast } from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 const Manager = () => {
     const ref = useRef()
@@ -35,6 +38,10 @@ const Manager = () => {
     }
     const savePassword = () => {
         console.log(form);
+        if (!form.site || !form.username || !form.password) {
+            alert("Please fill in all fields");
+            return;
+        }
         setpasswordArray([...passwordArray, form])
         localStorage.setItem("passwords", JSON.stringify([...passwordArray, form]))
         console.log(passwordArray)
@@ -47,8 +54,40 @@ const Manager = () => {
         setform({ ...form, [e.target.name]: e.target.value })
     }
 
+    const copyText = (text) => {
+        toast('Copied to Clipboard!', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+
+
+        });
+        navigator.clipboard.writeText(text);
+
+
+    }
+
     return (
         <div>
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="dark"
+            />
+            {/* Same as */}
+            <ToastContainer />
             <div className="absolute inset-0 -z-10 h-full w-full bg-green-50 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]"><div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-green-700 opacity-20 blur-[100px]"></div>
             </div>
 
@@ -86,7 +125,7 @@ const Manager = () => {
                             colors="primary:#000000,secondary:#000000"
                         >
                         </lord-icon>
-                        Add Password</button>
+                        Save Password</button>
 
                 </div>
 
@@ -100,21 +139,79 @@ const Manager = () => {
                                     <th className='py-2'>Site</th>
                                     <th className='py-2'>Username</th>
                                     <th className='py-2'>Password</th>
+                                    <th className='py-2'>Actions</th>
                                 </tr>
                             </thead>
                             <tbody className='bg-green-100'>
                                 {passwordArray.map((item, index) => {
                                     return <tr key={index}>
-                                        <td className='py-2 border border-white text-center w-32 '><a href={item.site} target='_blank'>{item.site}</a>
-                                            <div className='cursor-pointer '>
-                                                
+                                        <td className='py-2 border border-white text-center '>
+                                            <div className="flex gap-2 items-center justify-center">
+
+                                                <a href={item.site} target='_blank'>{item.site}</a>
+
+                                                <div className='copy size-7 cursor-pointer' onClick={() => { copyText(item.site) }}>
+                                                    <img width={13} src="icons/copy.svg" alt="copy"
+                                                        style={{ "width": "20px", "height": "20px", "paddingTop": "3px" }}
+                                                    />
+                                                </div>
 
                                             </div>
 
 
+
+
                                         </td>
-                                        <td className='py-2 border border-white text-center w-32'>{item.username}</td>
-                                        <td className='py-2 border border-white text-center w-32'>{item.password}</td>
+                                        <td className=' py-2 border border-white text-center'>
+
+                                            <div className='flex gap-2 items-center justify-center '>
+
+                                                <span>{item.username}</span>
+                                                <div className='copy  size-7 cursor-pointer' onClick={() => { copyText(item.username) }}>
+                                                    <img width={13} src="icons/copy.svg" alt="copy"
+                                                        style={{ "width": "20px", "height": "20px", "paddingTop": "3px" }}
+                                                    />
+                                                </div>
+                                            </div>
+
+                                        </td>
+                                        <td className='py-2 border border-white text-center '>
+                                            <div className='flex gap-2 items-center justify-center '>
+                                                <span>{item.password}</span>
+                                                <div className='copy size-7 cursor-pointer' onClick={() => { copyText(item.password) }}>
+                                                    <img width={13} src="icons/copy.svg" alt="copy"
+                                                        style={{ "width": "20px", "height": "20px", "paddingTop": "3px" }}
+                                                    />
+                                                </div>
+
+
+                                            </div>
+
+                                        </td>
+
+                                        <td className='py-2 border border-white text-center '>
+
+                                            <span className='cursor-pointer mx-1'><lord-icon
+                                                src="https://cdn.lordicon.com/wuvorxbv.json"
+                                                trigger="hover"
+                                                stroke="bold"
+                                                colors="primary:#000000,secondary:#000000"
+                                                style={{"width":"25px","height":"25px"}}>
+                                            </lord-icon> </span>
+                                            <span className='cursor-pointer mx-1'><lord-icon
+                                                 src="https://cdn.lordicon.com/drxwpfop.json"
+                                                trigger="hover"
+                                                stroke="bold"
+                                                colors="primary:#000000,secondary:#000000"
+                                                style={{"width":"25px","height":"25px"}}>
+                                            </lord-icon> </span>
+
+
+
+
+
+
+                                        </td>
                                     </tr>
 
                                 })}

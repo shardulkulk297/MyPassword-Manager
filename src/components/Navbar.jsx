@@ -22,9 +22,9 @@ const Navbar = () => {
                     </li> */}
 
                 </ul>
-                <div className='text-white bg-green-500 rounded-md flex gap-0 justify-between items-center'>
+                <div className='text-white bg-green-500 rounded-md flex gap-0 justify-between items-center ring-white ring-1'>
                     <img className='w-8 p-1 ' src="icons/github.svg" alt="Git" />
-                    <span className='px-2 font-bold'><a href="https://github.com/shardulkulk297/MyPassword-Manager" target='_blank'>Github</a>
+                    <span className='px-2 font-bold '><a href="https://github.com/shardulkulk297/MyPassword-Manager" target='_blank'>Github</a>
                     
                     </span>
                    
