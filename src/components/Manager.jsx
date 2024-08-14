@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
+import { v4 as uuidv4 } from 'uuid';
 
 const Manager = () => {
     const ref = useRef()
@@ -39,16 +40,87 @@ const Manager = () => {
     const savePassword = () => {
         console.log(form);
         if (!form.site || !form.username || !form.password) {
-            alert("Please fill in all fields");
+            toast('Please fill all the fields!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+    
+    
+            });
             return;
         }
-        setpasswordArray([...passwordArray, form])
-        localStorage.setItem("passwords", JSON.stringify([...passwordArray, form]))
+        setpasswordArray([...passwordArray, {...form, id : uuidv4()}])
+        localStorage.setItem("passwords", JSON.stringify([...passwordArray, {...form, id : uuidv4()}]))
         console.log(passwordArray)
+        setform({ site: "", username: "", password: "" })
+
+        toast('Password Saved!', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+
+
+        });
 
 
 
     }
+
+    const deletePassword = (id) => {
+        
+        console.log("Deleting password With id with id: " + id);
+        let c = confirm("Do you really want to delete this item?");
+        if(c){
+            setpasswordArray(passwordArray.filter(item=>item.id!==id))
+            localStorage.setItem("passwords", JSON.stringify(passwordArray.filter(item=>item.id!==id)))
+        }
+
+        toast('Password Deleted!', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+
+
+        });
+       
+        // setpasswordArray([...passwordArray, {...form, id : uuidv4()}])
+        // localStorage.setItem("passwords", JSON.stringify([...passwordArray, form]))
+        // console.log(passwordArray)
+
+
+
+    }
+
+    const editPassword = (id) => {
+        
+        console.log("editing password With id with id: " + id);
+        setform(passwordArray.filter(i=>i.id===id)[0]);
+        setpasswordArray(passwordArray.filter(item=>item.id!==id))
+        // setpasswordArray([...passwordArray, {...form, id : uuidv4()}])
+        // localStorage.setItem("passwords", JSON.stringify([...passwordArray, form]))
+        // console.log(passwordArray)
+
+
+
+
+    }
+
+
 
     const handleChange = (e) => {
         setform({ ...form, [e.target.name]: e.target.value })
@@ -86,8 +158,7 @@ const Manager = () => {
                 pauseOnHover
                 theme="dark"
             />
-            {/* Same as */}
-            <ToastContainer />
+            
             <div className="absolute inset-0 -z-10 h-full w-full bg-green-50 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]"><div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-green-700 opacity-20 blur-[100px]"></div>
             </div>
 
@@ -191,14 +262,14 @@ const Manager = () => {
 
                                         <td className='py-2 border border-white text-center '>
 
-                                            <span className='cursor-pointer mx-1'><lord-icon
+                                            <span className='edit cursor-pointer mx-1' onClick={ () => {editPassword(item.id)}} ><lord-icon
                                                 src="https://cdn.lordicon.com/wuvorxbv.json"
                                                 trigger="hover"
                                                 stroke="bold"
                                                 colors="primary:#000000,secondary:#000000"
                                                 style={{"width":"25px","height":"25px"}}>
                                             </lord-icon> </span>
-                                            <span className='cursor-pointer mx-1'><lord-icon
+                                            <span className='delete cursor-pointer mx-1' onClick={ () => {deletePassword(item.id)}}><lord-icon
                                                  src="https://cdn.lordicon.com/drxwpfop.json"
                                                 trigger="hover"
                                                 stroke="bold"
