@@ -210,7 +210,7 @@ const Manager = () => {
                         {passwordArray.length !== 0 &&
 
                             <div className='overflow-x-auto'>
-                                <table className="table-auto w-full overflow-hidden rounded-md  ">
+                                <table className="table-auto w-full overflow-hidden mb-10 rounded-md  ">
                                     <thead className='bg-green-800 text-white'>
                                         <tr>
                                             <th className='py-2'>Site</th>
